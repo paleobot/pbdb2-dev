@@ -358,8 +358,8 @@ CREATE TABLE opinion (
     refs_no integer REFERENCES refs("refs_no") NOT NULL,
     related_taxon_no integer REFERENCES taxon("taxon_no") NOT NULL,
     taxonomy_relationship_no integer REFERENCES dictionaries.taxonomy_relationship("taxonomy_relationship_no"),
-    preceded_by integer REFERENCES opinion("collection_vers"),
-    succeeded_by integer REFERENCES opinion("collection_vers")
+    preceded_by integer REFERENCES opinion("collection_vers"), -- I think this was a typo?? should be opinion_no? self-referencing
+    succeeded_by integer REFERENCES opinion("collection_vers") -- I think this was a typo?? should be opinion_no? self-referencing
     );
 
 -- I am positing here a complete rework of the taxon table in that it only exists 
