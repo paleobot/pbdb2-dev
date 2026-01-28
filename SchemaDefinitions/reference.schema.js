@@ -258,7 +258,7 @@ const referenceProperties = {
 				description: {type: "string"} required
 		`,
 		type: "string",
-		enum: ["journal article","book","chapter","edited collection","unpublished"]
+		enum: ["journal article","book","chapter","edited collection","unpublished","other"]
 	},
 	pbdb2ID: {
 		type: "string",
