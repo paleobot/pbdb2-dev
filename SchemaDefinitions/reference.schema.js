@@ -12,20 +12,20 @@ const journalArticle = 	{
 	},
 	then: {
 		properties: {
-			publicationTitle: {type: "string"},
-			publicationVolume: {
+			journalTitle: {type: "string"},
+			journalVolume: {
 				type: "string",
 				maxLength: 10
 			},
-			publicationNumber: {
+			journalNumber: {
 				type: "string",
 				maxLength: 10
 			},
 		},
 		required: [
-			"publicationType", 
-			"publicationTitle",
-			"publicationVolume"
+			"journalType", 
+			"journalTitle",
+			"journalVolume"
 		]	
 	},
 }
@@ -88,18 +88,18 @@ const serialMonograph = {
 				type: "string",
 				maxLength: 80
 			},
-			publicationTitle: { //Series
+			seriesTitle: { 
 				type: "string"
 			},
-			publicationVolume: { //Volume in series
+			seriesVolume: { 
 				type: "string",
 				maxLength: 10
 			},
 		},
 		required: [
 			"publicationType", 
-			"publicationTitle",
-			"publicationVolume",
+			"seriesTitle",
+			"seriesVolume",
 			"publisher",
 			"authors",
 			"firstPage",
@@ -119,7 +119,7 @@ const contributedArticleInEditedBook = {
 	},
 	then: {
 		properties: {
-			publicationTitle: {type: "string"},
+			bookTitle: {type: "string"},
 			publisher: {
 				type: "string",
 				maxLength: 255
@@ -135,7 +135,7 @@ const contributedArticleInEditedBook = {
 		},
 		required: [
 			"publicationType", 
-			"publicationTitle",
+			"bookTitle",
 			"authors",
 			"publisher",
 			"editors",
