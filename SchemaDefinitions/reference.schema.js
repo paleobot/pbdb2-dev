@@ -2,26 +2,6 @@
 Validation schemas in JSON Schema format. Note that fastify uses ajv (https://ajv.js.org/) for validation, which expects the schemas to be javascript objects rather than raw JSON. Consequently, property names (keys) do not require double quotes.
 */
 
-export const patchSchema = {
-    body: {
-		examples: [{
-			reference:{pubyr:"2021" }	
-		}],
-	},
-	response: {
-		204: {
-			description: 'Reference modified',
-			type: 'object',
-			properties: {
-				statusCode: {type: "integer"},
-				msg: {type: "string"},
-			}
-		},	
-	}
-}
-
-
-
 const journalArticle = 	{
 	if: {
 		properties: {
@@ -50,11 +30,11 @@ const journalArticle = 	{
 	},
 }
 
-const book = {
+const standaloneBook = {
 	if: {
 		properties: {
 			publicationType: {
-				const: "book" 
+				const: "standalone book" 
 			},
 			bookType: {
 				type: "string",
@@ -82,16 +62,58 @@ const book = {
 		},
 		required: [
 			"publicationType", 
-			"publisher"
+			"publisher",
+			"authors",
+			"firstPage",
+			"lastPage"
 		]
 	}
 }
 
-const chapter = {
+const serialMonograph = {
 	if: {
 		properties: {
 			publicationType: {
-				const: "chapter"
+				const: "serial monograph" 
+			},
+		},
+	},
+	then: {
+		properties: {
+			publisher: {
+				type: "string",
+				maxLength: 255
+			},
+			publicationCity: {
+				type: "string",
+				maxLength: 80
+			},
+			publicationTitle: { //Series
+				type: "string"
+			},
+			publicationVolume: { //Volume in series
+				type: "string",
+				maxLength: 10
+			},
+		},
+		required: [
+			"publicationType", 
+			"publicationTitle",
+			"publicationVolume",
+			"publisher",
+			"authors",
+			"firstPage",
+			"lastPage"
+		]
+	}
+}
+
+
+const contributedArticleInEditedBook = {
+	if: {
+		properties: {
+			publicationType: {
+				const: "contributed article in edited book"
 			},
 		},
 	},
@@ -114,8 +136,11 @@ const chapter = {
 		required: [
 			"publicationType", 
 			"publicationTitle",
+			"authors",
 			"publisher",
-			"editors"
+			"editors",
+			"firstPage",
+			"lastPage"
 		]
 	},
 }
@@ -146,7 +171,30 @@ const editedCollection = {
 		required: [
 			"publicationType", 
 			"publisher",
-			"editors"
+			"editors",
+			"firstPage",
+			"lastPage"
+		]	
+	},
+}
+
+const unpublished = {
+	if: {
+		properties: {
+			publicationType: {
+				const: "unpublished"
+			}
+		}
+	},
+	then: {
+		properties: {
+			description {
+				type: "string"
+			}
+		},
+		required: [
+			"authors",
+			"description"
 		]	
 	},
 }
@@ -156,17 +204,41 @@ const referenceProperties = {
 		description: `
 		Fields and requirements are added based on the value of this field. Unfortunately, proper documentation of these is not automatically generated. 
 			journal article: 
+				authors: {
+					type: "array"
+					minItems: 1,
+					items: {
+						surname: {type: "string"},
+						givenName: {type: "string"}
+					}
+				} required
 				publicationTitle: {type: "string"}, required
 				publicationVolume: {type: "string"}, required
 				publicationNumber: {type: "string"}, required
-			book:
+			standalone book:
 				bookType: {
 					type: "string",
-					enum: ["monograph", "serial monograph","compendium","Ph.D. thesis","M.S. thesis","abstract","guidebook"]
+					enum: ["monograph", "compendium","Ph.D. thesis","M.S. thesis","abstract","guidebook"]
 				}
+				authors: {
+					type: "array"
+					minItems: 1,
+					items: {
+						surname: {type: "string"},
+						givenName: {type: "string"}
+					}
+				} required
 				publisher: {type: "string"}, required
 				publicationCity: {type: "string}
-			chapter:
+			contributed article in edited book:
+				authors: {
+					type: "array"
+					minItems: 1,
+					items: {
+						surname: {type: "string"},
+						givenName: {type: "string"}
+					}
+				} required
 				publicationTitle: {type: "string"}, required
 				publisher: {type: "string"}, required
 				editors: {type: "string"}, required
@@ -175,13 +247,23 @@ const referenceProperties = {
 				publisher: {type: "string"}, required
 				editors: {type: "string"}, required
 				publicationCity: {type: "string}
+			unpublished:
+				authors: {
+					type: "array"
+					minItems: 1,
+					items: {
+						surname: {type: "string"},
+						givenName: {type: "string"}
+					}
+				} required
+				description: {type: "string"} required
 		`,
 		type: "string",
 		enum: ["journal article","book","chapter","edited collection","unpublished"]
 	},
 	pbdb2ID: {
 		type: "string",
-		description: "Unique identifier for the reference"
+		description: "UUID for the reference"
 	},
 	oldpbdbID: {
 		type: "string",
@@ -189,7 +271,12 @@ const referenceProperties = {
 	},
 	title: {type: "string"},
 	authors: {
-		type: "array"
+		type: "array",
+		minItems: 1,
+		items: {
+			surname: "string",
+			givenName: "string
+		}
 	},
 	publicationYear: {
 		type: "string",
@@ -212,15 +299,7 @@ const referenceProperties = {
 		enum: ['Chinese','English','French','German','Italian','Japanese','Portugese','Russian','Spanish','other','unknown'],
 		default: "English"
 	},
-	comments: {type: "string"},
-	classificationQuality: {
-		type: "string",
-		enum: ['authoritative','standard','compendium']
-	},
-	basis: {
-		type: "string",
-		enum: ['','stated with evidence','stated without evidence','second hand','none discussed','not entered']
-	},
+	notes: {type: "string"}
 }
 
 export const getSchema = {
@@ -239,6 +318,24 @@ export const getSchema = {
 
 }
 
+export const patchSchema = {
+    body: {
+		examples: [{
+			reference:{pubyr:"2021" }	
+		}],
+	},
+	response: {
+		204: {
+			description: 'Reference modified',
+			type: 'object',
+			properties: {
+				statusCode: {type: "integer"},
+				msg: {type: "string"},
+			}
+		},	
+	}
+}
+	
 export const editSchema = {
 	tags:["Reference"],
 	hide: true,
@@ -299,16 +396,15 @@ export const createSchema = {
 				required: [
 					"publicationType", 
 					"title", 
-					"author1init",
-					"author1last",
 					"publicationYear",
-					"firstPage",
 				],
 				allOf: [
 					journalArticle,
-					book,
-					chapter,
+					standaloneBook,
+					serialMonograph,
+					contributedArticleInEditedBook,
 					editedCollection,
+					unpublished
 				],
 			},
 			allowDuplicate: {
