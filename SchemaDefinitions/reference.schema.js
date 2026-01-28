@@ -40,7 +40,6 @@ const standaloneBook = {
 				type: "string",
 				enum: [
 					"monograph",
-					"serial monograph", //Does this deserve its own publicationType with a volume property?
 					"compendium",
 					"Ph.D. thesis",
 					"M.S. thesis",
