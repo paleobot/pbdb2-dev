@@ -213,10 +213,6 @@ const referenceProperties = {
 		default: "English"
 	},
 	comments: {type: "string"},
-	upload: {
-		type: "string",
-		enum: ['','YES']
-	},
 	classificationQuality: {
 		type: "string",
 		enum: ['authoritative','standard','compendium']
@@ -225,13 +221,6 @@ const referenceProperties = {
 		type: "string",
 		enum: ['','stated with evidence','stated without evidence','second hand','none discussed','not entered']
 	},
-	projectName: {
-		type: "array",
-		items: {
-			type: "string",
-			enum: ['decapod','ETE','5%','1%','PACED','PGAP','fossil record']
-		}
-	}
 }
 
 export const getSchema = {
