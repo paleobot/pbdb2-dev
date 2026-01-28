@@ -190,26 +190,6 @@ const referenceProperties = {
 	title: {type: "string"},
 	authors: {
 		type: "array"
-	}
-	author1init: {
-		type: "string",
-		maxLength: 10
-	},
-	author1last: {
-		type: "string",
-		maxLength: 255
-	},
-	author2init: {
-		type: "string",
-		maxLength: 10
-	},
-	author2last: {
-		type: "string",
-		maxLength: 255
-	},
-	otherauthors: {
-		type: "string",
-		maxLength: 255
 	},
 	publicationYear: {
 		type: "string",
