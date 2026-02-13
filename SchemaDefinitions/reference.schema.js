@@ -1,6 +1,7 @@
 /*
 Validation schemas in JSON Schema format. Note that fastify uses ajv (https://ajv.js.org/) for validation, which expects the schemas to be javascript objects rather than raw JSON. Consequently, property names (keys) do not require double quotes.
 */
+//TODO: Right now, publication type differentiation and required fields are split off into createSchema. This create/editSchema dichotomy is an historical artifact and can probably be dropped.
 
 const journalArticle = 	{
 	if: {
