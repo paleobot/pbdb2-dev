@@ -63,8 +63,7 @@ const standaloneBook = {
 			"publicationType", 
 			"publisher",
 			"authors",
-			"firstPage",
-			"lastPage"
+			"pages"
 		]
 	}
 }
@@ -101,8 +100,7 @@ const serialMonograph = {
 			"seriesVolume",
 			"publisher",
 			"authors",
-			"firstPage",
-			"lastPage"
+			"pages"
 		]
 	}
 }
@@ -138,8 +136,7 @@ const contributedArticleInEditedBook = {
 			"authors",
 			"publisher",
 			"editors",
-			"firstPage",
-			"lastPage"
+			"pages"
 		]
 	},
 }
@@ -171,8 +168,7 @@ const editedCollection = {
 			"publicationType", 
 			"publisher",
 			"editors",
-			"firstPage",
-			"lastPage"
+			"pages"
 		]	
 	},
 }
@@ -281,13 +277,19 @@ const referenceProperties = {
 		type: "string",
 		maxLength: 4
 	},
-	firstPage: {
-		type: "string",
-		maxLength: 10
-	},
-	lastPage: {
-		type: "string",
-		maxLength: 10
+	pages: {
+		type: "object",
+		properties: {
+			first: {
+				type: integer,
+				minimum: 1
+			},
+			last: {
+				type: integer,
+				minimum: 1
+			}
+		},
+		required: ["first", "last"]
 	},
 	doi: {
 		type: "string",
