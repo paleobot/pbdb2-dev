@@ -107,11 +107,11 @@ const serialMonograph = {
 }
 
 
-const contributedArticleInEditedBook = {
+const articleInEditedCollection = {
 	if: {
 		properties: {
 			publicationType: {
-				const: "contributed article in edited book"
+				const: "article in edited collection"
 			},
 		},
 	},
@@ -231,7 +231,7 @@ const referenceProperties = {
 					type: "array"
 					minItems: 1,
 					items: {
-						familyName: {type: "string"},
+						surname: {type: "string"},
 						givenName: {type: "string"}
 					}
 				} required
@@ -255,7 +255,7 @@ const referenceProperties = {
 				description: {type: "string"} required
 		`,
 		type: "string",
-		enum: ["journal article","book","chapter","edited collection","unpublished","other"]
+		enum: ["journal article","standalone book","edited collection","article in edited collection","serial monograph","unpublished","other"]
 	},
 	pbdb2ID: {
 		type: "string",
@@ -270,7 +270,7 @@ const referenceProperties = {
 		type: "array",
 		minItems: 1,
 		items: {
-			surname: "string",
+			familyName: "string",
 			givenName: "string
 		}
 	},
@@ -404,7 +404,7 @@ export const createSchema = {
 					journalArticle,
 					standaloneBook,
 					serialMonograph,
-					contributedArticleInEditedBook,
+					articleInEditedCollection,
 					editedCollection,
 					unpublished
 				],
