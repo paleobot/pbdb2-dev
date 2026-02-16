@@ -28,7 +28,7 @@ const collectionSchema = {
     properties: {
         pbotID: {
             type: "string",
-            description: "Unique identifier for the collection"
+            description: "Legacy ID for collections migrated from PBot"
         },
         name: {
             type: "string",
@@ -76,18 +76,6 @@ const collectionSchema = {
                 }
             },
             description: "Geographic location of the collection"
-        },
-        lat: {
-            type: "number",
-            minimum: -90,
-            maximum: 90,
-            description: "Latitude coordinate (form field)"
-        },
-        lon: {
-            type: "number",
-            minimum: -180,
-            maximum: 180,
-            description: "Longitude coordinate (form field)"
         },
         gpsCoordinateUncertainty: {
             type: "integer",
@@ -248,15 +236,15 @@ const collectionSchema = {
         },
         pbdbid: {
             type: "string",
-            description: "Paleobiology Database identifier"
+            description: "Legacy Paleobiology Database identifier"
         },
         references: {
             type: "array",
             items: {
                 type: "object",
-                required: ["pbotID", "order"],
+                required: ["order"],
                 properties: {
-                    pbotID: {
+                    referenceID: {
                         type: "string",
                         description: "Reference unique identifier"
                     },
