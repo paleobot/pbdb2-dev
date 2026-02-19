@@ -16,8 +16,7 @@ const collectionSchema = {
         "collectionType",
         "timescale",
         "maxinterval",
-        "lat",
-        "lon",
+        "location",
         "gpsCoordinateUncertainty",
         "country",
         "protectedSite",
@@ -50,11 +49,11 @@ const collectionSchema = {
             type: "string",
             description: "Timescale identifier (fetched from Macrostrat API)"
         },
-        maxinterval: {
+        maxInterval: {
             type: "string",
             description: "Maximum interval name (fetched from Macrostrat API based on timescale)"
         },
-        mininterval: {
+        minInterval: {
             type: "string",
             description: "Minimum interval name (fetched from Macrostrat API based on timescale)"
         },
@@ -192,7 +191,18 @@ const collectionSchema = {
             type: "array",
             items: {
                 type: "string",
-                description: "Preservation mode ID (fetched from database)"
+                enum: [
+                    "cast",
+                    "mold/impression",
+                    "adpression/compression",
+                    "recrystallized",
+                    "concretion",
+                    "charcoalification",
+                    "coalified",
+                    "body",
+                    "trace",
+                    "permineralization"
+                ]
             },
             minItems: 1,
             description: "List of preservation mode IDs"
@@ -234,7 +244,7 @@ const collectionSchema = {
             },
             description: "Size classes of specimens in collection"
         },
-        pbdbid: {
+        oldpbdbid: {
             type: "string",
             description: "Legacy Paleobiology Database identifier"
         },
