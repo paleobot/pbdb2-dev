@@ -32,7 +32,7 @@ const collectionProperties = {
                 oldpbdbID: {
                     type: "string",
                     description: "Legacy ID for collections migrated from old PBDB"
-                }
+                },
                 pbotID: {
                     type: "string",
                     description: "Legacy ID for collections migrated from PBot"
