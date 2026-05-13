@@ -342,10 +342,7 @@ CREATE TABLE authorities (
     permid text NOT NULL,
     authorizer_person_id integer REFERENCES persons("id") NOT NULL, -- Whoever was the authorizer of the enterer
     enterer_person_id integer REFERENCES persons("id") NOT NULL, -- Whoever made the entry or edit
-    parenthetical_citation text NOT NULL, -- e.g., Linnaeus 1766, L. R. Cox et al. 1969 (full citation, unstandardized format)
-    authors jsonb, -- using same format as in refs, can be NULL
-    year numeric(4,0) NOT NULL, -- year of authority
-    authority_reference_id REFERENCES refs ("id"), -- see notes below
+    authority jsonb NOT NULL, -- Defined in authority.schema.js
     reference_id integer REFERENCES refs("id") NOT NULL, -- see notes below
     preceded_by_id integer REFERENCES opinions("id"),
     succeeded_by_id integer REFERENCES opinions("id")
