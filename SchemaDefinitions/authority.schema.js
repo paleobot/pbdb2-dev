@@ -12,10 +12,6 @@ export const authoritySchema = {
     properties: {
         authority: {
             type: "object",
-            unevaluatedProperties: false, //new with Draft 2019-09
-            required: [
-                "parenthetical_citation",
-            ],
             properties: {
                 legacyIDs: {
                     type: "object",
@@ -25,9 +21,6 @@ export const authoritySchema = {
                             description: "Legacy ID for authorities migrated from old PBDB"
                         },
                     }
-                },
-                parenthetical_citation: {
-                    type: "string"
                 },
                 authors: {
                     type: "array",
@@ -44,6 +37,22 @@ export const authoritySchema = {
                     type: "string",
                     maxLength: 4
                 },
+                referenceIsAuthority: {
+                    type: "boolean"
+                }
+            },
+            unevaluatedProperties: false, //new with Draft 2019-09
+            required: [
+                "referenceIsAuthority",
+            ],
+            if: {
+                properties: { referenceIsAuthority: { const: false } }
+            },
+            then: {
+                required: ["authors"]
+            }
+            else: {
+                not: { required: ["authors"] }
             }
         }
     }
